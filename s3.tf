@@ -5,3 +5,11 @@ resource "aws_s3_bucket" "my_bucket" {
     Name = "MyBucket"
   }
 }
+
+resource "aws_s3_bucket" "my_bucketw" {
+  bucket = "asdasdwqeqw23221asasasdasdasd" # must be globally unique & lowercase
+
+  tags = {
+    Name = "MyBucket"
+  }
+}
