@@ -28,6 +28,6 @@ resource "aws_instance" "my_ec2" {
   security_groups = [aws_security_group.ec2_sg.name]
 
   tags = {
-    Name = "MyTerraformEC2"
+    Name = "Narendra Modi"
   }
 }
