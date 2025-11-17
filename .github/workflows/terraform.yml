@@ -1,4 +1,4 @@
-name: 'Terraform'
+name: Terraform CI/CD
 
 on:
   push:
@@ -6,36 +6,32 @@ on:
 
 jobs:
   terraform:
-    name: 'Terraform'
     runs-on: ubuntu-latest
     environment: production
-    
+
     steps:
-    # Checkout the repository to the GitHub Actions runner
-    - name: Checkout
-      uses: actions/checkout@v3
 
-       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-    - name: Terraform Init
-      uses: hashicorp/terraform-github-actions@master
-      with:
-       tf_actions_version: 0.14.3
-       tf_actions_subcommand: 'init'
-       tf_actions_working_dir: '.'
-       tf_actions_comment: true
-    
-    - name: Terraform plan 
-      uses: hashicorp/terraform-github-actions@master
-      with:
-       tf_actions_version: 0.14.3
-       tf_actions_subcommand: 'plan'
-       tf_actions_working_dir: '.'
-       tf_actions_comment: true
+      # 1. Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Terraform Apply
-      uses: hashicorp/terraform-github-actions@master
-      with:
-       tf_actions_version: 0.14.3
-       tf_actions_subcommand: 'apply'
-       tf_actions_working_dir: '.'
-       tf_actions_comment: true
+      # 2. Setup Terraform
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      # 3. Terraform Init
+      - name: Terraform Init
+        run: terraform init
+
+      # 4. Terraform Format
+      - name: Terraform Format
+        run: terraform fmt -check
+
+      # 5. Terraform Plan
+      - name: Terraform Plan
+        run: terraform plan
+
+      # 6. Terraform Apply (only on main repo, not from forks)
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main'
+        run: terraform apply -auto-approve
