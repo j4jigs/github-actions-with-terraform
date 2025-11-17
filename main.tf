@@ -1,9 +1,4 @@
 # Create a key pair (optional: update the public_key path if needed)
-resource "aws_key_pair" "mykey" {
-  key_name   = "mykey"
-#  public_key = file("~/.ssh/id_rsa.pub")
-}
-
 # Security Group allowing SSH
 resource "aws_security_group" "ec2_sg" {
   name        = "ec2-sg"
